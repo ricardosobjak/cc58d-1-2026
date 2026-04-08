@@ -1,0 +1,29 @@
+# TESTES COM USUÁRIOS
+@base=http://localhost:8080/user
+
+### Obter um usuário
+GET {{base}}/1
+
+### Obter todos usuários
+GET {{base}}
+
+
+### Obter usuário por nome
+GET {{base}}/name/a?size=5&page=0&sort=email,asc&sort=name
+
+
+### Criar um usuário
+POST {{base}}
+Content-Type: application/json
+
+{
+    "name": "afsdfasdf",
+    "password": "1234",
+    "birth": "2000-01-05"
+}
+
+### Atualizar um usuário
+
+
+### Deletar um usuário
+DELETE {{base}}/12123
