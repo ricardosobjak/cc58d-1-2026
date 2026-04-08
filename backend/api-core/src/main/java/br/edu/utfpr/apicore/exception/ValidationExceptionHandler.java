@@ -36,5 +36,10 @@ public class ValidationExceptionHandler {
         return new Msg("Invalid fields", errors, ex.getAllErrors());
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public Msg notFoundExpection(NotFoundException ex) {
+        return new Msg(ex.getMessage());
+    }
 
 }

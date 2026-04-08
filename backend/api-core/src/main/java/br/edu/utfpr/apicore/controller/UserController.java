@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.utfpr.apicore.dto.UserDTO;
 import br.edu.utfpr.apicore.model.User;
 import br.edu.utfpr.apicore.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
+@Tag(name = "User", description = "User resource endpoints")
 public class UserController {
 
     @Autowired
@@ -30,16 +36,34 @@ public class UserController {
     public User get(@PathVariable Long id) {
         return userService.findById(id);
     }
+    // public ResponseEntity<Object> get(@PathVariable Long id) {
+    //     var user = userService.findById(id);
 
+    //     return user.isPresent()
+    //         ? ResponseEntity.ok(user.get())
+    //         : ResponseEntity.notFound().build();
+    // }
+
+
+    @Operation(summary = "Retrive all users", description = "Get all users")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "500")
+    })
     @GetMapping(value = {"", "/"})
-    public List<User> getAll() {
-        return userService.getAll();
+    public ResponseEntity<Object> getAll() {
+        return ResponseEntity
+            .status(200)
+            .body(userService.getAll());
     }
 
-
     @GetMapping("name/{name}")
-    public Page<User> getByName(@PathVariable String name, Pageable pageable) {
-        return userService.getByName(name, pageable);
+    public ResponseEntity<Object> getByName(
+        @PathVariable String name, Pageable pageable) {
+
+        return ResponseEntity
+            .status(206)
+            .body(userService.getByName(name, pageable));
     }
 
     @PostMapping
@@ -49,10 +73,10 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public String update(@PathVariable String id, @RequestBody String entity) {
-        System.out.println("Atualizando usuário: " + entity);
-
-        return entity;
+    public ResponseEntity<Object> update(@PathVariable Long id, 
+        @Valid @RequestBody UserDTO dto) {
+        System.out.println("Atualizando usuário: " + dto);
+        return ResponseEntity.ok(userService.update(id, dto));
     }
 
     @DeleteMapping("{id}")

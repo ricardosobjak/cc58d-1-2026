@@ -23,6 +23,15 @@ Content-Type: application/json
 }
 
 ### Atualizar um usuário
+PUT {{base}}/2
+Content-Type: application/json
+
+{
+    "name": "Roberto Carlos",
+    "email": "robert@gmail.com",
+    "password": "1234",
+    "birth": "1950-02-12"
+}
 
 
 ### Deletar um usuário
