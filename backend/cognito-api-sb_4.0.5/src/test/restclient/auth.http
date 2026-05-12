@@ -1,0 +1,39 @@
+@URL=http://localhost:8080/auth
+
+@accessToken=
+@refreshToken=
+@idToken=
+
+
+### Autenticação de usuário com email e senha, retornando AccessToken, IdToken e RefreshToken
+POST {{URL}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "ricardosobjak@gmail.com",
+    "password": "Papaleguas123*"
+}
+
+
+### Validar token (AccessToken ou IdToken)
+POST {{URL}}/validate HTTP/1.1
+Authorization: Bearer {{accessToken}}
+
+
+### Decodificar IdToken para extrair informações do usuário (claims)
+POST {{URL}}/decode HTTP/1.1
+Authorization: Bearer {{idToken}}
+
+
+### Atualizar AccessToken usando RefreshToken
+#
+#   ATENÇÃO: O 'request.getUsername()' aqui deve ser 
+#   o username real do Cognito (ex: o UUID/sub),
+#   e não o email/alias, caso você permita login por email.
+POST {{URL}}/refresh HTTP/1.1
+Content-Type: application/json
+
+{
+    "refreshToken": "{{refreshToken}}",
+    "username": "c3fc7aca-e031-700c-8d35-fdfa043dd556"
+}
