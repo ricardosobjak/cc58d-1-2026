@@ -1,0 +1,34 @@
+@url=http://localhost:3000/users
+
+### Criar usuário
+POST {{url}}
+Content-Type: application/json
+
+{
+    "name": "ana",
+    "email": "ana@fsd.cff",
+    "password": "1234"
+}
+
+### Obter todos
+GET {{url}}
+Authorization: 1234
+
+
+### Obter por Id
+GET {{url}}/6a0315da98e508bf19079ab5
+Authorization: 1234
+
+### Obter por Id
+DELETE {{url}}/6a0315da98e508bf19079ab7
+
+
+### Atualizar usuário
+PUT {{url}}/6a0315d298e508bf19079ab6
+Content-Type: application/json
+
+{
+    "name": "Julio",
+    "email": "julio@fsd.cff",
+    "password": "asdfasdf"
+}

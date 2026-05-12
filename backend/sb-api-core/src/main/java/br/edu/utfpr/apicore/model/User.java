@@ -1,12 +1,15 @@
 package br.edu.utfpr.apicore.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
@@ -22,10 +25,7 @@ import lombok.ToString;
 @ToString(exclude = "password")
 @Entity
 @Table(name = "tb_user")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseEntity {
 
     @Column(name = "name", length = 100, nullable = false)
     private String name;
@@ -38,4 +38,8 @@ public class User {
 
     @Transient
     private Boolean valid;
+
+    
+    @OneToMany(mappedBy = "user")
+    private List<ToDo> todos = new ArrayList<>();
 }
